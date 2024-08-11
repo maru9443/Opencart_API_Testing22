@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "a0f3ad14-10cf-47e5-8eb4-84d75f61b8b8",
+		"name": "GoRest_APIChaining",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36278621"
+	},
+	"item": [
+		{
+			"name": "CreateNewUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var randomstring=\"johnson\"+Math.random().toString(36).substring(2);\r",
+							"const randomnum=Math.floor(Math.random()*100+1);\r",
+							"\r",
+							"\r",
+							"pm.collectionVariables.set(\"name_collection\",randomstring);\r",
+							"pm.collectionVariables.set(\"email_collection\",randomstring+\"@\"+randomnum+\".example\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData=pm.response.json();\r",
+							"pm.collectionVariables.set(\"collection_id\",jsonData.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ed785ffebfa2170c604e2bb6cb3efe93109cdd931e501c1e04eb1b38e6f88d51",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":{{name_collection}},\r\n    \"email\":{{email_collection}},\r\n    \"gender\":\"female\",\r\n    \"status\":\"inactive\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserDetails",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "551c1c72e8caf94f5a3369387fba7df6a503036c19aae741c0216505592f901d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in/public/v2/users/{{collection_id}}",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					],
+					"path": [
+						"public",
+						"v2",
+						"users",
+						"{{collection_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "ed785ffebfa2170c604e2bb6cb3efe93109cdd931e501c1e04eb1b38e6f88d51",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "name_collection",
+			"value": ""
+		},
+		{
+			"key": "email_collection",
+			"value": ""
+		},
+		{
+			"key": "collection_id",
+			"value": ""
+		}
+	]
+}
